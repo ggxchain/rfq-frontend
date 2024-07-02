@@ -1,0 +1,50 @@
+import Link from 'next/link';
+import React from 'react';
+import { useRouter } from 'next/router';
+import styles from './Menu.module.scss';
+import { faDashboard, faListAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBitcoin, faReadme } from '@fortawesome/free-brands-svg-icons';
+
+interface MenuProps {
+    className?: string;
+}
+
+const Menu: React.FC<MenuProps> = ({ className }) => {
+    const router = useRouter();
+
+    const isActive = (path: string) => router.pathname === path;
+
+    return (
+        <nav className={ styles.menu }>
+            <ul>
+                <li className={ isActive('/') ? styles.active : '' }>
+                    <Link href="/" className={ isActive('/') ? styles.active : '' }>
+                        <FontAwesomeIcon icon={ faDashboard } className="me-2 text-main-bg"/>
+                        Dashboard
+                    </Link>
+                </li>
+                <li className={ isActive('/request') ? styles.active : '' }>
+                    <Link href="/request" className={ isActive('/request') ? styles.active : '' }>
+                        <FontAwesomeIcon icon={ faBitcoin } className="me-2 text-main-bg"/>
+                        Request for&nbsp;Quote
+                    </Link>
+                </li>
+                <li className={ isActive('/list') ? styles.active : '' }>
+                    <Link href="/list" className={ isActive('/list') ? styles.active : '' }>
+                        <FontAwesomeIcon icon={ faListAlt } className="me-2 text-main-bg"/>
+                        Active Requests
+                    </Link>
+                </li>
+                <li className={ isActive('/faq') ? styles.active : '' }>
+                    <Link href="/faq" className={ isActive('/faq') ? styles.active : '' }>
+                        <FontAwesomeIcon icon={ faReadme } className="me-2 text-main-bg"/>
+                        F. A. Q.
+                    </Link>
+                </li>
+            </ul>
+        </nav>
+    );
+};
+
+export default Menu;

@@ -1,0 +1,14 @@
+.container {
+    @apply min-h-screen flex flex-col bg-gradient-main bg-cover bg-fixed;
+
+    .main {
+        @apply flex-1 mt-1 py-12 px-16 bg-gray-100;
+        border-top-left-radius: 30px;
+        border-bottom-left-radius: 30px;
+        box-shadow: 0 0 20px #0001;
+        background-image: url('./../../public/logo-transparent.svg');
+        background-position: right -745% top 70px;
+        background-size: 90%;
+        background-repeat: no-repeat;
+    }
+}

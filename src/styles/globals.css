@@ -1,0 +1,20 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+html, body {
+    background: #6594c4;
+    color: #333;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#root, #__next {
+    height: 100%;
+}
+
+a, a:visited {
+    color: #6694c4;
+}
