@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import fetch from 'cross-fetch'; 
 import { ApolloClient, HttpLink, InMemoryCache, gql, useQuery } from '@apollo/client'; 
 
-const API_URL = "https://sepolia.easscan.org/graphql";
+const API_URL = "https://base.easscan.org/graphql";
 
 const GET_ATTESTATIONS = gql`
   query GetAttestations($ethAddress: String) {
-    attestations(where: { recipient: {gt: $ethAddress} }) {
+    attestations(where: { recipient: {equals: $ethAddress} }) {
       attester
       expirationTime
       revocationTime

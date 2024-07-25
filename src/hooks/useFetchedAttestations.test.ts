@@ -7,7 +7,7 @@ describe("useFetchedAttestations", () => {
   });
 
   it("should return the initial values for `data`, error and loading", async () => {
-    const { result } = renderHook(() => useFetchedAttestations("0xFD50b031E778fAb33DfD2Fc3Ca66a1EeF0652165"));
+    const { result } = renderHook(() => useFetchedAttestations("0xFf04D614aea951223c0d3e4b5b1812531cE4941d"));
     const { data, error, loading } = result.current;
 
     // this being not wrapped in a waitFor causes the act errors in the console.
@@ -33,7 +33,7 @@ describe("useFetchedAttestations", () => {
 
     describe("the loading property", () => {
       it("should initially return true and then false", async () => {
-        const { result } = renderHook(() => useFetchedAttestations("0xFD50b031E778fAb33DfD2Fc3Ca66a1EeF0652165"));
+        const { result } = renderHook(() => useFetchedAttestations("0xFf04D614aea951223c0d3e4b5b1812531cE4941d"));
         const { loading } = result.current;
         expect(loading).toBe(true);
         await waitFor(() => {
