@@ -1,5 +1,6 @@
 .menu {
     @apply max-h-max w-72 pt-16;
+    z-index: 10;
     ul {
         li {
             @apply px-12 py-6 border-b border-b-gray-300 bg-gray-200 text-gray-600;
@@ -12,5 +13,13 @@
                 z-index: 100;
             }
         }
+    }
+
+}
+
+
+@media (max-width: 600px) {
+    .menu {
+        @apply fixed w-full top-14 left-0 transition-transform -translate-x-full lg:translate-x-0;
     }
 }

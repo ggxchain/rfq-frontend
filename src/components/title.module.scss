@@ -1,0 +1,39 @@
+.titleBlock {
+    @apply p-4 max-w-6xl;
+
+    @media only screen
+    and (min-device-width: 320px)
+    and (max-device-width: 720px) {
+        @apply pl-0 flex justify-start items-center mb-2;
+    }
+
+    .viewIcon{
+        @apply ml-3;
+    }
+    .active{
+        border: 4px solid;
+        @apply border-main-bg;
+        border-radius: 4px;
+        svg {
+            fill: #6594c4;
+            path {
+                fill: #6594c4;
+            }
+        }
+    }
+
+
+    .h1 {
+        @apply text-4xl mb-8;
+        @media only screen
+        and (min-device-width: 320px)
+        and (max-device-width: 720px)  {
+            @apply text-xl mb-0;
+        }
+    }
+    .h2 {
+        @apply text-2xl mb-4;
+    }
+
+
+}

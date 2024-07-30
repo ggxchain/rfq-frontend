@@ -3,40 +3,15 @@
 
     .h1 {
         @apply text-4xl mb-8;
+        @media (max-width: 600px) {
+            @apply text-xl mb-0;
+        }
     }
     .h2 {
         @apply text-2xl mb-4;
     }
 
-    .table {
-        @apply w-full bg-white shadow-md rounded-lg overflow-hidden mb-12;
 
-        th, td {
-            @apply text-left p-4 border-b border-gray-200;
-        }
-
-        th {
-            @apply bg-gray-200;
-        }
-
-        td {
-            @apply bg-gray-50;
-        }
-
-        tr:hover td {
-            @apply bg-gray-100;
-        }
-    }
 }
 
-.actionButton, .lockButton, .cancelButton {
-    @apply bg-main-bg text-white py-2 px-4 rounded;
-    &:first-child {
-        @apply mr-2;
-    }
-}
-
-.lockButton {
-    @apply bg-green-500;
-}
 
