@@ -1,0 +1,62 @@
+.table {
+    @apply w-full bg-white shadow-md rounded-lg overflow-hidden mb-12;
+
+    th, td {
+        @apply text-left p-4 border-b border-gray-200;
+    }
+
+    th {
+        @apply bg-gray-200;
+    }
+
+    td {
+        @apply bg-gray-50;
+    }
+
+    tr:hover td {
+        @apply bg-gray-100;
+    }
+}
+.viewTable{
+    th{
+        @apply w-1/4;
+    }
+}
+
+
+.actionButton, .lockButton, .cancelButton {
+    @apply bg-main-bg text-white py-2 px-4 rounded;
+    &:first-child {
+        @apply mr-2;
+    }
+}
+
+.lockButton {
+    @apply bg-green-500;
+}
+.iconButton {
+    @apply text-main-bg ms-2 cursor-pointer;
+}
+
+.bidButton {
+    @apply bg-main-bg text-white py-2 px-4 rounded;
+}
+
+.showHideButton {
+    @apply ml-2 text-main-bg underline cursor-pointer;
+}
+.bidsTableContainer {
+    @apply mb-4;
+
+    .bidsTable {
+        @apply w-full border-collapse mt-2 ;
+
+        th {
+            @apply bg-gray-100;
+        }
+
+        th, td {
+            @apply border p-2 text-left;
+        }
+    }
+}

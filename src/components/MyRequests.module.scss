@@ -3,6 +3,10 @@
 
     .h1 {
         @apply text-4xl mb-8;
+        @media (max-width: 600px) {
+            @apply text-xl mb-2;
+
+        }
     }
     .h2 {
         @apply text-2xl mb-4;
@@ -26,9 +30,23 @@
         tr:hover td {
             @apply bg-gray-100;
         }
+        @media (max-width: 600px) {
+            @apply mb-6;
+        }
+        }
+}
+.errorText{
+    @apply text-red-500 mb-4;
+    @media (max-width: 600px) {
+        font-size: 14px;
+        margin-bottom: 8px;
     }
 }
-
+.myRequests{
+    @media (max-width: 600px) {
+        padding: 0;
+    }
+}
 .actionButton, .cancelButton {
     @apply bg-main-bg text-white py-2 px-4 rounded;
     &:first-child {
