@@ -7,12 +7,15 @@ import type { BidData } from "@/types/data";
 import { View } from "@/types/view";
 import type React from "react";
 import { useState } from "react";
+import { isMobile } from "react-device-detect";
 import styles from "./index.module.scss";
 
 const MyRequestsAndBids: React.FC = () => {
 	const [_visibleBids, setVisibleBids] = useState<number[]>([]);
 	const [activeBids, setActiveBids] = useState<BidData[]>(mockedBids);
-	const [viewType, setViewType] = useState<View>(View.view);
+	const [viewType, setViewType] = useState<View>(
+		(isMobile && View.view) || View.table,
+	);
 	const _toggleBidsVisibility = (id: number) => {
 		setVisibleBids((prev) =>
 			prev.includes(id) ? prev.filter((bidId) => bidId !== id) : [...prev, id],

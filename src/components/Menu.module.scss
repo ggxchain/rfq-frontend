@@ -20,6 +20,7 @@
 
 @media (max-width: 600px) {
     .menu {
-        @apply fixed w-full top-14 left-0 transition-transform -translate-x-full lg:translate-x-0;
+        @apply fixed w-full mt-16 top-14 pt-0 left-0 transition-transform -translate-x-full lg:translate-x-0;
+        height: calc(100vh - 4rem);
     }
 }

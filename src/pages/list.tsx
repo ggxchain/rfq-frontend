@@ -7,6 +7,7 @@ import styles from "./list.module.scss";
 
 import PanelListSubView from "@/components/PanelListSubView";
 import type { BidData, RequestData } from "@/types/data";
+import { isMobile } from "react-device-detect";
 
 const mockedData: RequestData[] = [
 	{
@@ -55,7 +56,9 @@ const mockedBids: Partial<BidData>[] = [
 
 const List: React.FC = () => {
 	const [visibleBids, setVisibleBids] = useState<number[]>([]);
-	const [viewType, setViewType] = useState<View>(View.view);
+	const [viewType, setViewType] = useState<View>(
+		(isMobile && View.view) || View.table,
+	);
 
 	const toggleBidsVisibility = (id: number) => {
 		setVisibleBids((prev) =>
