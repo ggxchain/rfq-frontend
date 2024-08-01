@@ -14,4 +14,5 @@ interface RequestData {
 	btcAmount: number;
 	btcAddress: string;
 }
+
 export type { BidData, RequestData };

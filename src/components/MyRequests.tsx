@@ -1,42 +1,25 @@
 import { MetaMaskContext } from "@/components/MetaMaskContext";
+import MyRequestsPanelView from "@/components/MyRequestsPanelView";
+import MyRequestsTableView from "@/components/MyRequestsTableView";
+import PageTitle from "@/components/PageTitle";
 import RFQABI from "@/contracts/RFQ.json";
-import { faCopy, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { View } from "@/types/view";
 import type React from "react";
 import { useContext, useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 import styles from "./MyRequests.module.scss";
 
-interface RequestData {
-	id: number;
-	expiry: number;
-	btcAmount: number;
-	btcAddress: string;
-}
+import type { RequestData } from "@/types/data";
 
 const CONTRACT_ADDRESS = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
-
-const convertHoursToDaysAndHours = (hours: number): string => {
-	const days = Math.floor(hours / 24);
-	const remainingHours = hours % 24;
-	return `${days} day${days !== 1 ? "s" : ""}${remainingHours ? `, ${remainingHours} hour${remainingHours !== 1 ? "s" : ""}` : ""}`;
-};
-
-const copyToClipboard = (text: string) => {
-	navigator.clipboard.writeText(text);
-};
-
-const openInExplorer = (address: string, isEth = false) => {
-	const url = isEth
-		? `https://etherscan.io/address/${address}`
-		: `https://www.blockchain.com/btc/address/${address}`;
-	window.open(url, "_blank");
-};
 
 const MyRequests: React.FC = () => {
 	const { account, web3 } = useContext(MetaMaskContext);
 	const [requests, setRequests] = useState<RequestData[]>([]);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+	const [viewType, setViewType] = useState<View>(
+		(isMobile && View.view) || View.table,
+	);
 	useEffect(() => {
 		if (web3 && account) {
 			fetchRequests();
@@ -83,45 +66,21 @@ const MyRequests: React.FC = () => {
 			setErrorMessage("Error fetching requests. Please try again later.");
 		}
 	};
-
+	const renderList = () => {
+		switch (viewType) {
+			case View.view:
+				return <MyRequestsPanelView requests={requests} />;
+			default:
+				return <MyRequestsTableView requests={requests} />;
+		}
+	};
 	return (
 		<div className={`${styles.container} ${styles.myRequests}`}>
 			{errorMessage && <div className={styles.errorText}>{errorMessage}</div>}
-			<h1 className={styles.h1}>My Requests</h1>
-			<table className={styles.table}>
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Expiry</th>
-						<th>BTC</th>
-						<th>BTC&nbsp;Address</th>
-					</tr>
-				</thead>
-				<tbody>
-					{requests.map((data) => (
-						<tr key={data.id}>
-							<td>{data.id}</td>
-							<td>{convertHoursToDaysAndHours(data.expiry)}</td>
-							<td>{data.btcAmount}</td>
-							<td className="font-mono">
-								{data.btcAddress}
-								<button
-									className={styles.iconButton}
-									onClick={() => copyToClipboard(data.btcAddress)}
-								>
-									<FontAwesomeIcon icon={faCopy} />
-								</button>
-								<button
-									className={styles.iconButton}
-									onClick={() => openInExplorer(data.btcAddress)}
-								>
-									<FontAwesomeIcon icon={faExternalLinkAlt} />
-								</button>
-							</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
+			<PageTitle activeView={viewType} setView={setViewType}>
+				My Requests
+			</PageTitle>
+			{renderList()}
 		</div>
 	);
 };

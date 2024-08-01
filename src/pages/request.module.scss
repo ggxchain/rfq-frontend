@@ -2,8 +2,18 @@
     @apply p-4 max-w-6xl;
     .h1 {
         @apply text-4xl;
+        @media only screen
+        and (min-device-width: 320px)
+        and (max-device-width: 720px)  {
+            @apply text-xl mb-0;
+        }
     }
     .h3 {
         @apply text-lg font-thin italic;
+        @media only screen
+        and (min-device-width: 320px)
+        and (max-device-width: 720px)  {
+            @apply text-sm mb-0;
+        }
     }
 }
