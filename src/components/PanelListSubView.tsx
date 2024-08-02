@@ -1,4 +1,4 @@
-import type { BidData, RequestData } from "@/types/data";
+import type { QuoteData, RequestData } from "@/types/data";
 import {
 	convertHoursToDaysAndHours,
 	copyToClipboard,
@@ -12,16 +12,16 @@ import styles from "./view.module.scss";
 
 const PanelListSubView = ({
 	requestData,
-	getBidsCount,
-	visibleBids,
-	toggleBidsVisibility,
-	mockedBids,
+	getQuotesCount,
+	visibleQuotes,
+	toggleQuotesVisibility,
+	mockedQuotes,
 }: {
-	visibleBids: number[];
+	visibleQuotes: number[];
 	requestData: RequestData[];
-	getBidsCount: (id: number) => number;
-	toggleBidsVisibility: (id: number) => void;
-	mockedBids: Partial<BidData>[];
+	getQuotesCount: (id: number) => number;
+	toggleQuotesVisibility: (id: number) => void;
+	mockedQuotes: Partial<QuoteData>[];
 }) => {
 	return requestData.map((data) => (
 		<table key={`${data.id}-list`} className={styles.table}>
@@ -58,15 +58,15 @@ const PanelListSubView = ({
 					</td>
 				</tr>
 				<tr>
-					<th>Bids</th>
+					<th>Quotes</th>
 					<td>
-						{getBidsCount(data.id)}
-						{getBidsCount(data.id) > 0 && (
+						{getQuotesCount(data.id)}
+						{getQuotesCount(data.id) > 0 && (
 							<button
 								className={styles.showHideButton}
-								onClick={() => toggleBidsVisibility(data.id)}
+								onClick={() => toggleQuotesVisibility(data.id)}
 							>
-								{visibleBids.includes(data.id) ? "Hide" : "Show"}
+								{visibleQuotes.includes(data.id) ? "Hide" : "Show"}
 							</button>
 						)}
 					</td>
@@ -74,37 +74,39 @@ const PanelListSubView = ({
 				<tr>
 					<th>Action</th>
 					<td>
-						<button className={styles.bidButton}>Create&nbsp;a&nbsp;Bid</button>
+						<button className={styles.quoteButton}>
+							Create&nbsp;a&nbsp;Quote
+						</button>
 					</td>
 				</tr>
 
-				{visibleBids.includes(data.id) && (
+				{visibleQuotes.includes(data.id) && (
 					<tr>
 						<td colSpan={2} className="pb-4">
-							<div className={styles.bidsTableContainer}>
-								<table className={styles.bidsTable}>
+							<div className={styles.QuotesTableContainer}>
+								<table className={styles.QuotesTable}>
 									<tbody>
-										{mockedBids
-											.filter((bid) => bid.requestId === data.id)
-											.map((bid) => (
-												<Fragment key={`sub-info-${bid.id}-${data.id}`}>
+										{mockedQuotes
+											.filter((quote) => quote.requestId === data.id)
+											.map((quote) => (
+												<Fragment key={`sub-info-${quote.id}-${data.id}`}>
 													<tr>
-														<th>Bid ID</th>
-														<td>{bid.id}</td>
+														<th>quote ID</th>
+														<td>{quote.id}</td>
 													</tr>
 													<tr>
 														<th>Asset</th>
-														<td>{bid.asset}</td>
+														<td>{quote.asset}</td>
 													</tr>
 													<tr>
 														<th>Amount</th>
-														<td>{bid.amount}</td>
+														<td>{quote.amount}</td>
 													</tr>
 													<tr>
 														<th>Expiry</th>
 														<td>
-															{bid?.expiry &&
-																convertHoursToDaysAndHours(bid.expiry)}
+															{quote?.expiry &&
+																convertHoursToDaysAndHours(quote.expiry)}
 														</td>
 													</tr>
 												</Fragment>

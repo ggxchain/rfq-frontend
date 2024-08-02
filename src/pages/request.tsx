@@ -273,12 +273,12 @@ const Request: React.FC = () => {
 											blockchain Explorer.
 										</li>
 										<li className="mt-3">
-											<b>Monitor Bids:</b> Regularly check the platform for new
-											bids. When you find an offer that meets your expectations,
-											you can accept it.
+											<b>Monitor Quotes:</b> Regularly check the platform for
+											new Quotes. When you find an offer that meets your
+											expectations, you can accept it.
 										</li>
 										<li className="mt-3">
-											<b>Escrow Security:</b> Upon acceptance of a bid, the
+											<b>Escrow Security:</b> Upon acceptance of a quote, the
 											counterparty’s Ethereum-based tokens will be secured in an
 											escrow Smart Contract.
 										</li>

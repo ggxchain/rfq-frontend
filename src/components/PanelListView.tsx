@@ -1,4 +1,4 @@
-import type { BidData } from "@/types/data";
+import type { QuoteData } from "@/types/data";
 import {
 	convertHoursToDaysAndHours,
 	copyToClipboard,
@@ -11,49 +11,49 @@ import { faCopy, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const PanelListView = ({
-	activeBids,
-	onLockBid,
-	onCancelBid,
+	activeQuotes,
+	onLockQuote,
+	onCancelQuote,
 }: {
-	activeBids: BidData[];
-	onLockBid: (id: number) => void;
-	onCancelBid: (id: number) => void;
+	activeQuotes: QuoteData[];
+	onLockQuote: (id: number) => void;
+	onCancelQuote: (id: number) => void;
 }) => {
-	return activeBids.map((bid) => (
+	return activeQuotes.map((quote) => (
 		<table
-			key={`${bid.id}-bid-id`}
+			key={`${quote.id}-quote-id`}
 			className={`${styles.table} ${styles.viewTable}`}
 		>
 			<tbody>
 				<tr>
-					<th>Bid ID</th>
-					<td>{bid.id}</td>
+					<th>Quote ID</th>
+					<td>{quote.id}</td>
 				</tr>
 				<tr>
 					<th>Request ID</th>
-					<td>{bid.requestId}</td>
+					<td>{quote.requestId}</td>
 				</tr>
 				<tr>
 					<th>Request Expiry</th>
-					<td>{convertHoursToDaysAndHours(bid.expiry)}</td>
+					<td>{convertHoursToDaysAndHours(quote.expiry)}</td>
 				</tr>
 				<tr>
-					<th>Bid Expiry</th>
-					<td>{convertHoursToDaysAndHours(bid.expiry)}</td>
+					<th>Quote Expiry</th>
+					<td>{convertHoursToDaysAndHours(quote.expiry)}</td>
 				</tr>
 				<tr>
 					<th>Request BTC Address</th>
 					<td className="font-mono">
-						{shortenAddress(bid.ethAddress)}
+						{shortenAddress(quote.ethAddress)}
 						<button
 							className={styles.iconButton}
-							onClick={() => copyToClipboard(bid.ethAddress)}
+							onClick={() => copyToClipboard(quote.ethAddress)}
 						>
 							<FontAwesomeIcon icon={faCopy} />
 						</button>
 						<button
 							className={styles.iconButton}
-							onClick={() => openInExplorer(bid.ethAddress, true)}
+							onClick={() => openInExplorer(quote.ethAddress, true)}
 						>
 							<FontAwesomeIcon icon={faExternalLinkAlt} />
 						</button>
@@ -61,31 +61,31 @@ const PanelListView = ({
 				</tr>
 				<tr>
 					<th>Asset</th>
-					<td>{bid.asset}</td>
+					<td>{quote.asset}</td>
 				</tr>
 				<tr>
 					<th>Amount</th>
-					<td>{bid.amount}</td>
+					<td>{quote.amount}</td>
 				</tr>
 				<tr>
 					<th>Status</th>
-					<td>{bid.status}</td>
+					<td>{quote.status}</td>
 				</tr>
 				<tr>
 					<th>Action</th>
 
 					<td className="whitespace-nowrap">
-						{bid.status === "accepted" && (
+						{quote.status === "accepted" && (
 							<button
 								className={styles.lockButton}
-								onClick={() => onLockBid(bid.id)}
+								onClick={() => onLockQuote(quote.id)}
 							>
 								Lock&nbsp;in&nbsp;Escrow
 							</button>
 						)}
 						<button
 							className={styles.cancelButton}
-							onClick={() => onCancelBid(bid.id)}
+							onClick={() => onCancelQuote(quote.id)}
 						>
 							Cancel
 						</button>

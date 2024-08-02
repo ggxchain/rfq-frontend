@@ -1,4 +1,4 @@
-interface BidData {
+interface QuoteData {
 	id: number;
 	requestId: number;
 	asset: string;
@@ -15,4 +15,4 @@ interface RequestData {
 	btcAddress: string;
 }
 
-export type { BidData, RequestData };
+export type { QuoteData, RequestData };

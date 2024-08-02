@@ -1,4 +1,4 @@
-import type { BidData } from "@/types/data";
+import type { QuoteData } from "@/types/data";
 import {
 	convertHoursToDaysAndHours,
 	copyToClipboard,
@@ -10,22 +10,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./view.module.scss";
 
 const TableListView = ({
-	activeBids,
-	onLockBid,
-	onCancelBid,
+	activeQuotes,
+	onLockQuote,
+	onCancelQuote,
 }: {
-	activeBids: BidData[];
-	onLockBid: (id: number) => void;
-	onCancelBid: (id: number) => void;
+	activeQuotes: QuoteData[];
+	onLockQuote: (id: number) => void;
+	onCancelQuote: (id: number) => void;
 }) => {
 	return (
 		<table className={styles.table}>
 			<thead>
 				<tr>
-					<th>Bid ID</th>
+					<th>Quote ID</th>
 					<th>Request ID</th>
 					<th>Request Expiry</th>
-					<th>Bid Expiry</th>
+					<th>Quote Expiry</th>
 					<th>Request BTC Address</th>
 					<th>Asset</th>
 					<th>Amount</th>
@@ -34,42 +34,42 @@ const TableListView = ({
 				</tr>
 			</thead>
 			<tbody>
-				{activeBids.map((bid) => (
-					<tr key={bid.id}>
-						<td>{bid.id}</td>
-						<td>{bid.requestId}</td>
-						<td>{convertHoursToDaysAndHours(bid.expiry)}</td>
-						<td>{convertHoursToDaysAndHours(bid.expiry)}</td>
+				{activeQuotes.map((quote) => (
+					<tr key={quote.id}>
+						<td>{quote.id}</td>
+						<td>{quote.requestId}</td>
+						<td>{convertHoursToDaysAndHours(quote.expiry)}</td>
+						<td>{convertHoursToDaysAndHours(quote.expiry)}</td>
 						<td className="font-mono">
-							{shortenAddress(bid.ethAddress)}
+							{shortenAddress(quote.ethAddress)}
 							<button
 								className={styles.iconButton}
-								onClick={() => copyToClipboard(bid.ethAddress)}
+								onClick={() => copyToClipboard(quote.ethAddress)}
 							>
 								<FontAwesomeIcon icon={faCopy} />
 							</button>
 							<button
 								className={styles.iconButton}
-								onClick={() => openInExplorer(bid.ethAddress, true)}
+								onClick={() => openInExplorer(quote.ethAddress, true)}
 							>
 								<FontAwesomeIcon icon={faExternalLinkAlt} />
 							</button>
 						</td>
-						<td>{bid.asset}</td>
-						<td>{bid.amount}</td>
-						<td>{bid.status}</td>
+						<td>{quote.asset}</td>
+						<td>{quote.amount}</td>
+						<td>{quote.status}</td>
 						<td className="whitespace-nowrap">
-							{bid.status === "accepted" && (
+							{quote.status === "accepted" && (
 								<button
 									className={styles.lockButton}
-									onClick={() => onLockBid(bid.id)}
+									onClick={() => onLockQuote(quote.id)}
 								>
 									Lock&nbsp;in&nbsp;Escrow
 								</button>
 							)}
 							<button
 								className={styles.cancelButton}
-								onClick={() => onCancelBid(bid.id)}
+								onClick={() => onCancelQuote(quote.id)}
 							>
 								Cancel
 							</button>
