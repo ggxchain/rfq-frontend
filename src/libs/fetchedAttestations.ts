@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
 import fetch from 'cross-fetch'; 
-import { ApolloClient, HttpLink, InMemoryCache, gql, useQuery } from '@apollo/client'; 
+import { ApolloClient, HttpLink, InMemoryCache, gql} from '@apollo/client'; 
 
 const API_URL = "https://base.easscan.org/graphql";
 

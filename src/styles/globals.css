@@ -18,3 +18,9 @@ html, body {
 a, a:visited {
     color: #6694c4;
 }
+
+@define-mixin working-mixin {
+    .some-class {
+        @apply bg-green-200;
+    }
+}

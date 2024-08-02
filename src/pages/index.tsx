@@ -1,155 +1,77 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
-import styles from './index.module.scss';
-import MyRequests from '@/components/MyRequests';
+import MyRequests from "@/components/MyRequests";
+import PageTitle from "@/components/PageTitle";
+import PanelListView from "@/components/PanelListView";
+import TableListView from "@/components/TableListView";
+import { mockedQuotes } from "@/mocks";
+import type { QuoteData } from "@/types/data";
+import { View } from "@/types/view";
+import type React from "react";
+import { useState } from "react";
+import { isMobile } from "react-device-detect";
+import styles from "./index.module.scss";
 
-interface BidData {
-    id: number;
-    requestId: number;
-    asset: string;
-    amount: number;
-    expiry: number;
-    ethAddress: string;
-    status: 'active' | 'accepted';
-}
+const MyRequestsAndQuotes: React.FC = () => {
+	const [_visibleQuotes, setVisibleQuotes] = useState<number[]>([]);
+	const [activeQuotes, setActiveQuotes] = useState<QuoteData[]>(mockedQuotes);
+	const [viewType, setViewType] = useState<View>(
+		(isMobile && View.view) || View.table,
+	);
+	const _toggleQuotesVisibility = (id: number) => {
+		setVisibleQuotes((prev) =>
+			prev.includes(id)
+				? prev.filter((quoteId) => quoteId !== id)
+				: [...prev, id],
+		);
+	};
 
-const mockedBids: BidData[] = [
-    {
-        id: 1,
-        requestId: 1,
-        asset: 'ETH',
-        amount: 1.5,
-        expiry: 200,
-        ethAddress: '0xAddress1',
-        status: 'active',
-    },
-    {
-        id: 2,
-        requestId: 1,
-        asset: 'DAI',
-        amount: 2500,
-        expiry: 200,
-        ethAddress: '0xAddress2',
-        status: 'active',
-    },
-    {
-        id: 3,
-        requestId: 2,
-        asset: 'ETH',
-        amount: 1.0,
-        expiry: 200,
-        ethAddress: '0xAddress3',
-        status: 'accepted',
-    },
-];
+	const _getQuotesCount = (requestId: number) => {
+		return activeQuotes.filter((quote) => quote.requestId === requestId).length;
+	};
 
-const convertHoursToDaysAndHours = (hours: number): string => {
-    const days = Math.floor(hours / 24);
-    const remainingHours = hours % 24;
-    return `${days} day${days !== 1 ? 's' : ''}${remainingHours ? `, ${remainingHours} hour${remainingHours !== 1 ? 's' : ''}` : ''}`;
+	const _handleAcceptQuote = (quoteId: number) => {
+		console.log(`Accept quote: ${quoteId}`);
+	};
+
+	const handleLockQuote = (quoteId: number) => {
+		console.log(`Lock quote: ${quoteId}`);
+	};
+
+	const handleCancelQuote = (quoteId: number) => {
+		setActiveQuotes((prev) => prev.filter((quote) => quote.id !== quoteId));
+	};
+
+	const renderList = () => {
+		switch (viewType) {
+			case View.view:
+				return (
+					<PanelListView
+						activeQuotes={activeQuotes}
+						onLockQuote={handleLockQuote}
+						onCancelQuote={handleCancelQuote}
+					/>
+				);
+			default:
+				return (
+					<TableListView
+						activeQuotes={activeQuotes}
+						onLockQuote={handleLockQuote}
+						onCancelQuote={handleCancelQuote}
+					/>
+				);
+		}
+	};
+
+	return (
+		<div className={styles.container}>
+			<MyRequests />
+
+			<PageTitle activeView={viewType} setView={setViewType}>
+				My Active Quotes
+			</PageTitle>
+
+			{renderList()}
+		</div>
+	);
 };
 
-const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-};
-
-const openInExplorer = (address: string, isEth = false) => {
-    const url = isEth
-        ? `https://etherscan.io/address/${address}`
-        : `https://www.blockchain.com/btc/address/${address}`;
-    window.open(url, '_blank');
-};
-
-const shortenAddress = (address: string): string => {
-    return `${address.slice(0, 5)}...${address.slice(-5)}`;
-};
-
-const MyRequestsAndBids: React.FC = () => {
-    const [visibleBids, setVisibleBids] = useState<number[]>([]);
-    const [activeBids, setActiveBids] = useState<BidData[]>(mockedBids);
-
-    const toggleBidsVisibility = (id: number) => {
-        setVisibleBids((prev) =>
-            prev.includes(id) ? prev.filter((bidId) => bidId !== id) : [...prev, id]
-        );
-    };
-
-    const getBidsCount = (requestId: number) => {
-        return activeBids.filter(bid => bid.requestId === requestId).length;
-    };
-
-    const handleAcceptBid = (bidId: number) => {
-        console.log(`Accept bid: ${bidId}`);
-    };
-
-    const handleLockBid = (bidId: number) => {
-        console.log(`Lock bid: ${bidId}`);
-    };
-
-    const handleCancelBid = (bidId: number) => {
-        setActiveBids(prev => prev.filter(bid => bid.id !== bidId));
-    };
-
-    return (
-        <div className={styles.container}>
-            <MyRequests />
-            <h1 className={styles.h1}>My Active Bids</h1>
-            <table className={styles.table}>
-                <thead>
-                <tr>
-                    <th>Bid ID</th>
-                    <th>Request ID</th>
-                    <th>Request Expiry</th>
-                    <th>Bid Expiry</th>
-                    <th>Request BTC Address</th>
-                    <th>Asset</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                {activeBids.map((bid) => (
-                    <tr key={bid.id}>
-                        <td>{bid.id}</td>
-                        <td>{bid.requestId}</td>
-                        <td>{convertHoursToDaysAndHours(bid.expiry)}</td>
-                        <td>{convertHoursToDaysAndHours(bid.expiry)}</td>
-                        <td className="font-mono">
-                            {shortenAddress(bid.ethAddress)}
-                            <button className={styles.iconButton} onClick={() => copyToClipboard(bid.ethAddress)}>
-                                <FontAwesomeIcon icon={faCopy} />
-                            </button>
-                            <button className={styles.iconButton} onClick={() => openInExplorer(bid.ethAddress, true)}>
-                                <FontAwesomeIcon icon={faExternalLinkAlt} />
-                            </button>
-                        </td>
-                        <td>{bid.asset}</td>
-                        <td>{bid.amount}</td>
-                        <td>{bid.status}</td>
-                        <td className="whitespace-nowrap">
-                            {bid.status === 'accepted' && (
-                                <button
-                                    className={styles.lockButton}
-                                    onClick={() => handleLockBid(bid.id)}
-                                >
-                                    Lock&nbsp;in&nbsp;Escrow
-                                </button>
-                            )}
-                            <button
-                                className={styles.cancelButton}
-                                onClick={() => handleCancelBid(bid.id)}
-                            >
-                                Cancel
-                            </button>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-        </div>
-    );
-};
-
-export default MyRequestsAndBids;
+export default MyRequestsAndQuotes;
