@@ -2,37 +2,42 @@ import MyRequests from "@/components/MyRequests";
 import PageTitle from "@/components/PageTitle";
 import PanelListView from "@/components/PanelListView";
 import TableListView from "@/components/TableListView";
-import { mockedBids } from "@/mocks";
-import type { BidData } from "@/types/data";
+import { mockedQuotes } from "@/mocks";
+import type { QuoteData } from "@/types/data";
 import { View } from "@/types/view";
 import type React from "react";
 import { useState } from "react";
+import { isMobile } from "react-device-detect";
 import styles from "./index.module.scss";
 
-const MyRequestsAndBids: React.FC = () => {
-	const [_visibleBids, setVisibleBids] = useState<number[]>([]);
-	const [activeBids, setActiveBids] = useState<BidData[]>(mockedBids);
-	const [viewType, setViewType] = useState<View>(View.view);
-	const _toggleBidsVisibility = (id: number) => {
-		setVisibleBids((prev) =>
-			prev.includes(id) ? prev.filter((bidId) => bidId !== id) : [...prev, id],
+const MyRequestsAndQuotes: React.FC = () => {
+	const [_visibleQuotes, setVisibleQuotes] = useState<number[]>([]);
+	const [activeQuotes, setActiveQuotes] = useState<QuoteData[]>(mockedQuotes);
+	const [viewType, setViewType] = useState<View>(
+		(isMobile && View.view) || View.table,
+	);
+	const _toggleQuotesVisibility = (id: number) => {
+		setVisibleQuotes((prev) =>
+			prev.includes(id)
+				? prev.filter((quoteId) => quoteId !== id)
+				: [...prev, id],
 		);
 	};
 
-	const _getBidsCount = (requestId: number) => {
-		return activeBids.filter((bid) => bid.requestId === requestId).length;
+	const _getQuotesCount = (requestId: number) => {
+		return activeQuotes.filter((quote) => quote.requestId === requestId).length;
 	};
 
-	const _handleAcceptBid = (bidId: number) => {
-		console.log(`Accept bid: ${bidId}`);
+	const _handleAcceptQuote = (quoteId: number) => {
+		console.log(`Accept quote: ${quoteId}`);
 	};
 
-	const handleLockBid = (bidId: number) => {
-		console.log(`Lock bid: ${bidId}`);
+	const handleLockQuote = (quoteId: number) => {
+		console.log(`Lock quote: ${quoteId}`);
 	};
 
-	const handleCancelBid = (bidId: number) => {
-		setActiveBids((prev) => prev.filter((bid) => bid.id !== bidId));
+	const handleCancelQuote = (quoteId: number) => {
+		setActiveQuotes((prev) => prev.filter((quote) => quote.id !== quoteId));
 	};
 
 	const renderList = () => {
@@ -40,17 +45,17 @@ const MyRequestsAndBids: React.FC = () => {
 			case View.view:
 				return (
 					<PanelListView
-						activeBids={activeBids}
-						onLockBid={handleLockBid}
-						onCancelBid={handleCancelBid}
+						activeQuotes={activeQuotes}
+						onLockQuote={handleLockQuote}
+						onCancelQuote={handleCancelQuote}
 					/>
 				);
 			default:
 				return (
 					<TableListView
-						activeBids={activeBids}
-						onLockBid={handleLockBid}
-						onCancelBid={handleCancelBid}
+						activeQuotes={activeQuotes}
+						onLockQuote={handleLockQuote}
+						onCancelQuote={handleCancelQuote}
 					/>
 				);
 		}
@@ -61,7 +66,7 @@ const MyRequestsAndBids: React.FC = () => {
 			<MyRequests />
 
 			<PageTitle activeView={viewType} setView={setViewType}>
-				My Active Bids
+				My Active Quotes
 			</PageTitle>
 
 			{renderList()}
@@ -69,4 +74,4 @@ const MyRequestsAndBids: React.FC = () => {
 	);
 };
 
-export default MyRequestsAndBids;
+export default MyRequestsAndQuotes;

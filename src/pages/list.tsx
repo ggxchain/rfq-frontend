@@ -6,7 +6,8 @@ import { useState } from "react";
 import styles from "./list.module.scss";
 
 import PanelListSubView from "@/components/PanelListSubView";
-import type { BidData, RequestData } from "@/types/data";
+import type { QuoteData, RequestData } from "@/types/data";
+import { isMobile } from "react-device-detect";
 
 const mockedData: RequestData[] = [
 	{
@@ -29,7 +30,7 @@ const mockedData: RequestData[] = [
 	},
 ];
 
-const mockedBids: Partial<BidData>[] = [
+const mockedQuotes: Partial<QuoteData>[] = [
 	{
 		id: 1,
 		requestId: 1,
@@ -54,17 +55,21 @@ const mockedBids: Partial<BidData>[] = [
 ];
 
 const List: React.FC = () => {
-	const [visibleBids, setVisibleBids] = useState<number[]>([]);
-	const [viewType, setViewType] = useState<View>(View.view);
+	const [visibleQuotes, setVisibleQuotes] = useState<number[]>([]);
+	const [viewType, setViewType] = useState<View>(
+		(isMobile && View.view) || View.table,
+	);
 
-	const toggleBidsVisibility = (id: number) => {
-		setVisibleBids((prev) =>
-			prev.includes(id) ? prev.filter((bidId) => bidId !== id) : [...prev, id],
+	const toggleQuotesVisibility = (id: number) => {
+		setVisibleQuotes((prev) =>
+			prev.includes(id)
+				? prev.filter((quoteId) => quoteId !== id)
+				: [...prev, id],
 		);
 	};
 
-	const getBidsCount = (requestId: number) => {
-		return mockedBids.filter((bid) => bid.requestId === requestId).length;
+	const getQuotesCount = (requestId: number) => {
+		return mockedQuotes.filter((quote) => quote.requestId === requestId).length;
 	};
 
 	const renderList = () => {
@@ -72,21 +77,21 @@ const List: React.FC = () => {
 			case View.view:
 				return (
 					<PanelListSubView
-						getBidsCount={getBidsCount}
-						visibleBids={visibleBids}
-						mockedBids={mockedBids}
+						getQuotesCount={getQuotesCount}
+						visibleQuotes={visibleQuotes}
+						mockedQuotes={mockedQuotes}
 						requestData={mockedData}
-						toggleBidsVisibility={toggleBidsVisibility}
+						toggleQuotesVisibility={toggleQuotesVisibility}
 					/>
 				);
 			default:
 				return (
 					<TableListSubView
-						getBidsCount={getBidsCount}
-						visibleBids={visibleBids}
-						mockedBids={mockedBids}
+						getQuotesCount={getQuotesCount}
+						visibleQuotes={visibleQuotes}
+						mockedQuotes={mockedQuotes}
 						requestData={mockedData}
-						toggleBidsVisibility={toggleBidsVisibility}
+						toggleQuotesVisibility={toggleQuotesVisibility}
 					/>
 				);
 		}
@@ -98,7 +103,7 @@ const List: React.FC = () => {
 				Active Requests
 			</PageTitle>
 
-			<h3 className={styles.h3}>Place your bids against BTC offers</h3>
+			<h3 className={styles.h3}>Place your Quotes against BTC offers</h3>
 			{renderList()}
 		</div>
 	);

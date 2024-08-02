@@ -1,6 +1,6 @@
-import type { BidData } from "@/types/data";
+import type { QuoteData } from "@/types/data";
 
-const mockedBids: BidData[] = [
+const mockedQuotes: QuoteData[] = [
 	{
 		id: 1,
 		requestId: 1,
@@ -30,4 +30,4 @@ const mockedBids: BidData[] = [
 	},
 ];
 
-export { mockedBids };
+export { mockedQuotes };

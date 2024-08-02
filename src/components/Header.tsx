@@ -3,7 +3,10 @@ import type React from "react";
 import { useContext } from "react";
 import styles from "./Header.module.scss";
 import MetaMaskButton from "./MetaMaskButton";
-import ThreeDotsImage from "./ThreeDots";
+
+import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const Header: React.FC = () => {
 	const { showMenu, setShowMenu } = useContext(MobileMenuView);
 	return (
@@ -23,7 +26,10 @@ const Header: React.FC = () => {
 					type="button"
 					className="inline-flex items-center p-2 rounded-lg lg:hidden"
 				>
-					<ThreeDotsImage />
+					<FontAwesomeIcon
+						icon={showMenu ? faClose : faBars}
+						className="me-2 text-white"
+					/>
 				</button>
 			</div>
 			<MetaMaskButton />

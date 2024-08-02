@@ -13,8 +13,6 @@ import { isMobile } from "react-device-detect";
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
 	const [showMenu, setShowMenu] = useState(false);
-	console.log("*** App:", showMenu);
-	console.log("*** isMobile:", isMobile);
 	return (
 		<MobileMenuView.Provider value={{ setShowMenu, showMenu }}>
 			<MetaMaskProvider>
@@ -24,7 +22,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
 						<Menu
 							className={`${
 								isMobile
-									? "fixed w-full top-14 left-0 transition-transform transparent p-safe-or-4 menu -translate-x-full lg:translate-x-0"
+									? "fixed w-full top-14 left-0 transition-transform transparent p-safe-or-4 menu -translate-x-full lg:translate-x-0  "
 									: ""
 							} ${showMenu ? " translate-x-0" : ""}`}
 						/>

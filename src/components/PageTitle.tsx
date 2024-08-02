@@ -1,7 +1,7 @@
-import { TableView } from "@/components/TableView";
-import { ListView } from "@/components/listView";
 import type { TitleProps } from "@/types/title";
 import { View } from "@/types/view";
+import { faRectangleList, faTable } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type React from "react";
 import { isMobile } from "react-device-detect";
 import styles from "./title.module.scss";
@@ -16,13 +16,19 @@ const PageTitle: React.FC<TitleProps> = ({ children, activeView, setView }) => {
 						onClick={() => setView(View.view)}
 						className={`${styles.viewIcon} ${activeView === View.view && styles.active}`}
 					>
-						<ListView />
+						<FontAwesomeIcon
+							icon={faRectangleList}
+							className={` ${activeView === View.view && "text-main-bg"}`}
+						/>
 					</div>
 					<div
 						onClick={() => setView(View.table)}
 						className={`${styles.viewIcon} ${activeView === View.table && styles.active}`}
 					>
-						<TableView />
+						<FontAwesomeIcon
+							icon={faTable}
+							className={` ${activeView === View.table && "text-main-bg"}`}
+						/>
 					</div>
 				</>
 			)) || <h1 className={styles.h1}>{children}</h1>}
