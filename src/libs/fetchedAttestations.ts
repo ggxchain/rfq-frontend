@@ -19,14 +19,13 @@ const graphqlClient = new ApolloClient({
   cache: new InMemoryCache()}
 );
 
-const useFetchedAttestations = (ethAddress: string) => {
-
-  const { loading, error, data } = useQuery(GET_ATTESTATIONS, {
+const fetchedAttestations = async (ethAddress: string) => {
+  const result = await graphqlClient.query({
+    query: GET_ATTESTATIONS,
     variables: { ethAddress },
-    client: graphqlClient,
   });
 
-  return { data, error, loading };
+  return result;
 };
 
-export default useFetchedAttestations;
+export default fetchedAttestations;
