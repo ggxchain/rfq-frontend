@@ -5,11 +5,11 @@ import { getResolver } from 'key-did-resolver'
 import { fromString } from 'uint8arrays/from-string'
 
 // Import your compiled composite
-import { definition } from './runtime-composite'
+import { rfqDefinition } from './runtime-composite'
 import { RuntimeCompositeDefinition } from "@composedb/types";
 
 // Create an instance of ComposeClient
-const compose = new ComposeClient({ ceramic: 'http://localhost:7007', definition: definition as RuntimeCompositeDefinition })
+const compose = new ComposeClient({ ceramic: 'http://localhost:7007', definition: rfqDefinition as RuntimeCompositeDefinition })
 
 // Hexadecimal-encoded private key for a DID having admin access to the target Ceramic node
 // Replace the example key here by your admin private key
@@ -56,7 +56,7 @@ export async function createRequest(amount: number, bitcoinAddress: string, ethe
   return rtMutation
 }
 
-export async function createQuote(publicKeyMaker: string, publicKeyTaker: string, nonce: number, quoteMessageEncrypted: string, quoteSignatureEncrypted: string) {
+export async function createQuote(publicKeyMaker: string, publicKeyTaker: string, ethereumAddress: string, nonce: number, quoteMessageEncrypted: string, quoteSignatureEncrypted: string) {
   await did.authenticate()
   compose.setDID(did)
 
@@ -66,6 +66,7 @@ export async function createQuote(publicKeyMaker: string, publicKeyTaker: string
         document{
             pm
             pt
+            ethereumAddress
             quoteNonce
             quoteMessageEncrypted
             quoteSignatureEncrypted
@@ -79,6 +80,7 @@ export async function createQuote(publicKeyMaker: string, publicKeyTaker: string
         "content": {
           "pm": publicKeyMaker,
           "pt": publicKeyTaker,
+          "ethereumAddress": ethereumAddress,
           "quoteNonce": nonce,
           "quoteMessageEncrypted": quoteMessageEncrypted,
           "quoteSignatureEncrypted": quoteSignatureEncrypted,
@@ -95,7 +97,7 @@ export async function getActiveRequests() {
   let rt = await compose.executeQuery(`
     query MyQuery {
       viewer {
-        requestList(first: 10) {
+        requestList(first: 100) {
           edges {
             node {
               amount

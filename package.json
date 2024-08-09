@@ -50,6 +50,9 @@
     "typescript": "^5"
   },
   "jest": {
+    "setupFilesAfterEnv": [
+      "./jest.setup.js"
+    ],
     "preset": "ts-jest/presets/default-esm",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
