@@ -44,7 +44,7 @@ const Request: React.FC = () => {
 			return;
 		}
 
-		const contract = new web3.eth.Contract(RFQABI.abi, CONTRACT_ADDRESS);
+		const contract = new web3.eth.Contract(RFQABI?.abi || [], CONTRACT_ADDRESS);
 		const expiryInSeconds =
 			Number.parseInt(data.expirationDays) * 86400 +
 			Number.parseInt(data.expirationHours) * 3600;

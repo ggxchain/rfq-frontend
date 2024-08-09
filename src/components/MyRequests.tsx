@@ -33,7 +33,10 @@ const MyRequests: React.FC = () => {
 		}
 
 		try {
-			const contract = new web3.eth.Contract(RFQABI.abi, CONTRACT_ADDRESS);
+			const contract = new web3.eth.Contract(
+				RFQABI?.abi || [],
+				CONTRACT_ADDRESS,
+			);
 			const requestCounterStr: string = await contract.methods
 				.requestCounter(web3.utils.asciiToHex(account))
 				.call();
