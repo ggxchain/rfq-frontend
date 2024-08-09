@@ -13,6 +13,7 @@
   "dependencies": {
     "@apollo/client": "^3.11.3",
     "@composedb/client": "^0.7.1",
+    "@composedb/types": "^0.7.1",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
@@ -49,13 +50,18 @@
     "typescript": "^5"
   },
   "jest": {
-		"preset": "ts-jest/presets/default-esm",
+    "preset": "ts-jest/presets/default-esm",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/"
     ],
     "transform": {
-      "^.+\\.(ts|tsx)?$": "ts-jest"
+      "^.+\\.(ts|tsx)?$": [
+        "ts-jest",
+        {
+          "useESM": true
+        }
+      ]
     },
     "testEnvironment": "jsdom"
   }

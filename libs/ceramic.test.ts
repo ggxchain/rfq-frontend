@@ -1,4 +1,8 @@
 import { createRequest } from "./ceramic";
+import { TextDecoder, TextEncoder } from 'util';
+
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
 describe("createRequest", () => {
 

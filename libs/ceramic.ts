@@ -5,10 +5,11 @@ import { getResolver } from 'key-did-resolver'
 import { fromString } from 'uint8arrays/from-string'
 
 // Import your compiled composite
-import definition from './runtime-composite.json' with { type: "json" }
+import { definition } from './runtime-composite'
+import { RuntimeCompositeDefinition } from "@composedb/types";
 
 // Create an instance of ComposeClient
-const compose = new ComposeClient({ ceramic: 'http://localhost:7007', definition })
+const compose = new ComposeClient({ ceramic: 'http://localhost:7007', definition: definition as RuntimeCompositeDefinition })
 
 // Hexadecimal-encoded private key for a DID having admin access to the target Ceramic node
 // Replace the example key here by your admin private key
@@ -152,6 +153,36 @@ export async function getAddressRequests(ethereumAddress: string) {
 }
 
 //todo how to filter Encrypted quote
-export async function getAddressQuotes() {
+export async function getAddressQuotes(ethereumAddress: string) {
+  let rt = await compose.executeQuery(`
+    query MyQuery {
+      viewer {
+        quoteEncryptedsIndex(filters:$input, first:5) {
+          edges {
+            node {
+              pm
+              pt
+              ethereumAddress
+              quoteNonce
+              quoteMessageEncrypted
+              quoteSignatureEncrypted
+            }
+            cursor
+          }
+        }
+      }
+    }
+    `,
+    {
+      "input": {
+        "where": {
+          "ethereumAddress": {
+            "_eq": ethereumAddress
+          }
+        }
+      }
+    }
+    )
 
+    return rt;
 }

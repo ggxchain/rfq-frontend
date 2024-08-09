@@ -1,4 +1,4 @@
-type Request @createModel(accountRelation: LIST, description: "Request info") 
+type Request @createModel(accountRelation: LIST, description: "Request info")
 @createIndex(fields: [{path: "bitcoinAddress"}])
 @createIndex(fields: [{path: "ethereumAddress"}])
 {
@@ -10,9 +10,12 @@ type Request @createModel(accountRelation: LIST, description: "Request info")
   publicKey: String! @string(minLength: 3, maxLength: 50)
 }
 
-type QuoteEncrypted @createModel(accountRelation: LIST, description: "Quote info") {
+type QuoteEncrypted @createModel(accountRelation: LIST, description: "Quote info encrypted")
+@createIndex(fields: [{path: "ethereumAddress"}])
+{
   pm: String! @string(minLength: 50, maxLength: 70) #public key of maker
   pt: String! @string(minLength: 50, maxLength: 70) #public key of taker!
+  ethereumAddress: String! @string(minLength: 42, maxLength: 42) #H160 string example: 0xaaafB3972B05630fCceE866eC69CdADd9baC2771
   quoteNonce: Int!
   quoteMessageEncrypted: String! @string(minLength: 50, maxLength: 512)    #encrypt from Quote
   quoteSignatureEncrypted: String! @string(minLength: 50, maxLength: 512)
@@ -20,6 +23,7 @@ type QuoteEncrypted @createModel(accountRelation: LIST, description: "Quote info
 
 type Quote @createModel(accountRelation: LIST, description: "Quote info") {
   bitcoinAddress: String! @string(minLength: 50, maxLength: 70)#bytes25 hex string
+  ethereumAddress: String! @string(minLength: 42, maxLength: 42) #H160 string example: 0xaaafB3972B05630fCceE866eC69CdADd9baC2771
   requestNonce: Int!
   erc20Address: String! @string(minLength: 42, maxLength: 42)#H160 string example: 0xaaafB3972B05630fCceE866eC69CdADd9baC2771
   amount: Int!
